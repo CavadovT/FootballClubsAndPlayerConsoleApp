@@ -1,4 +1,5 @@
 ﻿using Business.Interfaces;
+using DataAccess.Repositories;
 using Entities.Models;
 using System;
 using System.Collections.Generic;
@@ -8,9 +9,29 @@ namespace Business.Services
 {
     public class FootballPlayerService : IFootballPlayer
     {
+        public static int Count { get; set; }
+        private FootballPlayerRepository _footballPlayerRepository;
+        public FootballPlayerRepository FootballPlayerRepository 
+        {
+            get 
+            {
+                return _footballPlayerRepository;
+            }
+            set
+            {
+                _footballPlayerRepository = value;
+            }
+                }
+        public FootballPlayerService()
+        {
+            _footballPlayerRepository=new FootballPlayerRepository();
+        }
         public FootballPlayer Create(FootballPlayer player)
         {
-            throw new NotImplementedException();
+            Count++;
+            player.ID = Count;
+            _footballPlayerRepository.Create(player);
+            return player;
         }
 
         public FootballPlayer Delete(int id)

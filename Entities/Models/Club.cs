@@ -11,6 +11,8 @@ namespace Entities.Models
         public string ClubName { get; set; }    
         public int MaxPSize { get; set; }
         public int CountryId { get; set; }
+        public DateTime CreatTeam { get; set; } 
         public List<FootballPlayer> FootballPlayers { get; set; }
+
     }
 }

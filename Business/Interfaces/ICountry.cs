@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Business.Interfaces
 {
-    public interface ICounty
+    public interface ICountry
     {
         Country Create(Country country);
         Country Update(int countryId,Country country);
