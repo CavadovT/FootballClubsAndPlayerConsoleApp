@@ -2,6 +2,7 @@
 using Entities.Models;
 using System;
 using System.Collections.Generic;
+using Utilities.Helper;
 
 namespace DataAccess.Repositories
 {
@@ -66,23 +67,27 @@ namespace DataAccess.Repositories
                 throw;
             }
         }
-        public List<Club> GetAllClubs(Predicate<Club> filter = null)
-        {
-            try
-            {
-                return filter == null ? DataContext.Clubs : DataContext.Clubs.FindAll(filter);
-            }
-            catch (Exception)
-            {
 
-                throw;
-            }
-        }
+        //public List<Club> GetAllClubs(Predicate<Club> filter = null)
+        //{
+        //    try
+        //    {
+        //        return filter == null ? DataContext.Clubs : DataContext.Clubs.FindAll(filter);
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+        //}
         public void  AddClub(Club club)
         {
             try
             {
-                new List<Club>().Add(club);
+                Country country = DataContext.Countrys.Find(cl => cl.ID == club.CountryId);
+                country.Clubs = new List<Club>();
+                country.Clubs.Add(club);
+                Notifications.Print(ConsoleColor.Cyan, $"{club.ClubName}added to {country.CountryName}");
             }
             catch (Exception)
             {

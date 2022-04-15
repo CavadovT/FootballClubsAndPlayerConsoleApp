@@ -40,7 +40,7 @@ namespace DataAccess.Repositories
         {
             throw new NotImplementedException();
         }
-       
+
 
         public bool Update(Club entity)
         {
@@ -55,7 +55,7 @@ namespace DataAccess.Repositories
 
                 throw;
             }
-           
+
         }
 
         public List<Club> Get(Predicate<Club> filter = null)
@@ -70,18 +70,16 @@ namespace DataAccess.Repositories
 
                 throw;
             }
-           
+
         }
 
-        
+
         public void AddPlayers(FootballPlayer player)
         {
             try
             {
-               
-                
-                Club club=DataContext.Clubs.Find(cl=>cl.ID==player.ClubId);
-                club.FootballPlayers=new List<FootballPlayer>();
+                Club club = DataContext.Clubs.Find(cl => cl.ID == player.ClubId);
+                club.FootballPlayers = new List<FootballPlayer>();
                 club.FootballPlayers.Add(player);
                 Notifications.Print(ConsoleColor.Cyan, $"{player.PlayerName}added to {club.ClubName}");
             }
@@ -105,13 +103,14 @@ namespace DataAccess.Repositories
             }
         }
 
-        public void TransferPlayer(FootballPlayer player,int newClubid) 
+        public void TransferPlayer(FootballPlayer player, int newClubid)
         {
             try
             {
-                Club club=DataContext.Clubs.Find(cl=>cl.ID==player.ClubId);
-               club.FootballPlayers.Remove(player);
-                Club clubnew=DataContext.Clubs.Find(ncl=>ncl.ID==newClubid);
+                Club club = DataContext.Clubs.Find(cl => cl.ID == player.ClubId);
+                club.FootballPlayers.Remove(player);
+                Club clubnew = DataContext.Clubs.Find(ncl => ncl.ID == newClubid);
+                clubnew.FootballPlayers = new List<FootballPlayer>();
                 clubnew.FootballPlayers.Add(player);
                 Notifications.Print(ConsoleColor.Cyan, $"{player.PlayerName}transfered to {clubnew.ClubName}");
             }
@@ -120,8 +119,8 @@ namespace DataAccess.Repositories
 
                 throw;
             }
-        
-        
+
+
         }
     }
 }
