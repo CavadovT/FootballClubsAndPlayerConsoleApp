@@ -2,7 +2,6 @@
 using Entities.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DataAccess.Repositories
 {
@@ -10,26 +9,92 @@ namespace DataAccess.Repositories
     {
         public bool Create(Country entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DataContext.Countrys.Add(entity);
+                return true;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
 
         public bool Delete(Country entity)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                DataContext.Countrys.Remove(entity);
+                return true;
+            }
+            catch (Exception)
+            {
 
-        public List<Country> Get(Country entity)
-        {
-            throw new NotImplementedException();
+                throw;
+            }
         }
 
         public bool Update(Country entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Country isExist = DataContext.Countrys.Find(s => s.ID == entity.ID);
+                isExist = entity;
+                return true;
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
-        public List<Club> AddClub(Club club)
+
+        public List<Country> Get(Predicate<Country> filter = null)
         {
-            return new List<Club>() { club };
+            try
+            {
+                return filter == null ? DataContext.Countrys : DataContext.Countrys.FindAll(filter);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public List<Club> GetAllClubs(Predicate<Club> filter = null)
+        {
+            try
+            {
+                return filter == null ? DataContext.Clubs : DataContext.Clubs.FindAll(filter);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public void  AddClub(Club club)
+        {
+            try
+            {
+                new List<Club>().Add(club);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
+        }
+
+        public Country Find(Predicate<Country> filter = null)
+        {
+            return filter==null ? null : DataContext.Countrys.Find(filter);
         }
     }
 }

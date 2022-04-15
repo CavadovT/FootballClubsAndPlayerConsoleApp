@@ -2,7 +2,6 @@
 using Entities.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace DataAccess.Repositories
 {
@@ -10,23 +9,73 @@ namespace DataAccess.Repositories
     {
         public bool Create(FootballPlayer entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DataContext.FootballPlayers.Add(entity);
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public bool Delete(FootballPlayer entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DataContext.FootballPlayers.Remove(entity);
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
-        public List<FootballPlayer> Get(FootballPlayer entity)
+        public FootballPlayer Find(Predicate<FootballPlayer> filter = null)
         {
-            throw new NotImplementedException();
+            try
+            {
+            return  filter==null ? null :DataContext.FootballPlayers.Find(filter);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public List<FootballPlayer> Get(Predicate<FootballPlayer> filter = null)
+        {
+            try
+            {
+                return filter == null ? DataContext.FootballPlayers : DataContext.FootballPlayers.FindAll(filter);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            
         }
 
         public bool Update(FootballPlayer entity)
         {
-            throw new NotImplementedException();
-        }
+            try
+            {
+                FootballPlayer isExist = DataContext.FootballPlayers.Find(s => s.ID == entity.ID);
+                isExist = entity;
+                return true;
 
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

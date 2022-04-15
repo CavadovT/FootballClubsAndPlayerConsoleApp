@@ -10,6 +10,7 @@ namespace DataAccess.Interfaces
         bool Create(T entity);
         bool Update(T entity);  
         bool Delete(T entity);
-        List<T> Get(T entity);
+        List<T> Get(Predicate<T>filter=null);
+        T Find(Predicate<T>filter=null);
     }
 }

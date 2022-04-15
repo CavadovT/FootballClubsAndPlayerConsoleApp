@@ -2,7 +2,7 @@
 using Entities.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using Utilities.Helper;
 
 namespace DataAccess.Repositories
 {
@@ -10,26 +10,106 @@ namespace DataAccess.Repositories
     {
         public bool Create(Club entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DataContext.Clubs.Add(entity);
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public bool Delete(Club entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DataContext.Clubs.Remove(entity);
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public List<Club> Get(Club entity)
         {
             throw new NotImplementedException();
         }
+       
 
         public bool Update(Club entity)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Club isExist = DataContext.Clubs.Find(s => s.ID == entity.ID);
+                isExist = entity;
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
         }
-        public List<FootballPlayer> AddPlayers(FootballPlayer player)
+
+        public List<Club> Get(Predicate<Club> filter = null)
         {
-        return new List<FootballPlayer> { player };
+            try
+            {
+                return filter == null ? DataContext.Clubs : DataContext.Clubs.FindAll(filter);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
+        }
+        public List<FootballPlayer> GetAllFootballPlayers(Predicate<FootballPlayer> filter = null) 
+        {
+            try
+            {
+                return filter==null? DataContext.FootballPlayers : DataContext.FootballPlayers.FindAll(filter);
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public void AddPlayers(FootballPlayer player)
+        {
+            try
+            {
+             new List<FootballPlayer>().Add(player);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+           
+        }
+
+        public Club Find(Predicate<Club> filter = null)
+        {
+            try
+            {
+                return filter == null ? null : DataContext.Clubs.Find(filter);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

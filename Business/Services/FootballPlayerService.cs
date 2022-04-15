@@ -3,7 +3,7 @@ using DataAccess.Repositories;
 using Entities.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using Utilities.Helper;
 
 namespace Business.Services
 {
@@ -11,9 +11,9 @@ namespace Business.Services
     {
         public static int Count { get; set; }
         private FootballPlayerRepository _footballPlayerRepository;
-        public FootballPlayerRepository FootballPlayerRepository 
+        public FootballPlayerRepository FootballPlayerRepository
         {
-            get 
+            get
             {
                 return _footballPlayerRepository;
             }
@@ -21,10 +21,10 @@ namespace Business.Services
             {
                 _footballPlayerRepository = value;
             }
-                }
+        }
         public FootballPlayerService()
         {
-            _footballPlayerRepository=new FootballPlayerRepository();
+            _footballPlayerRepository = new FootballPlayerRepository();
         }
         public FootballPlayer Create(FootballPlayer player)
         {
@@ -36,7 +36,13 @@ namespace Business.Services
 
         public FootballPlayer Delete(int id)
         {
-            throw new NotImplementedException();
+            FootballPlayer isExist = _footballPlayerRepository.Find(g => g.ID == id);
+            if (isExist == null)
+            {
+                Notifications.Print(ConsoleColor.Red, "Player Not Fount for delet");
+            }
+            _footballPlayerRepository.Delete(isExist);
+            return isExist;
         }
 
         public List<FootballPlayer> Get(string fitlrname = null)
@@ -46,7 +52,17 @@ namespace Business.Services
 
         public FootballPlayer Update(int playerId, FootballPlayer player)
         {
-            throw new NotImplementedException();
+            FootballPlayer isExist = _footballPlayerRepository.Find(g => g.ID == playerId);
+            if (isExist == null)
+            {
+                Notifications.Print(ConsoleColor.Red, "This Plaer Not Found");
+            }
+            isExist.PlayerSurname = player.PlayerSurname;
+            isExist.PlayerName = player.PlayerName;
+            isExist.Age = player.Age;
+            isExist.ClubId = player.ClubId;
+            _footballPlayerRepository.Update(player);
+            return player;
         }
     }
 }
