@@ -72,31 +72,24 @@ namespace DataAccess.Repositories
             }
            
         }
-        public List<FootballPlayer> GetAllFootballPlayers(Predicate<FootballPlayer> filter = null) 
-        {
-            try
-            {
-                return filter==null? DataContext.FootballPlayers : DataContext.FootballPlayers.FindAll(filter);
 
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
+        
         public void AddPlayers(FootballPlayer player)
         {
             try
             {
-             new List<FootballPlayer>().Add(player);
+               
+                
+                Club club=DataContext.Clubs.Find(cl=>cl.ID==player.ClubId);
+                club.FootballPlayers=new List<FootballPlayer>();
+                club.FootballPlayers.Add(player);
+                Notifications.Print(ConsoleColor.Cyan, $"{player.PlayerName}added to {club.ClubName}");
             }
             catch (Exception)
             {
 
                 throw;
             }
-           
         }
 
         public Club Find(Predicate<Club> filter = null)
@@ -110,6 +103,25 @@ namespace DataAccess.Repositories
 
                 throw;
             }
+        }
+
+        public void TransferPlayer(FootballPlayer player,int newClubid) 
+        {
+            try
+            {
+                Club club=DataContext.Clubs.Find(cl=>cl.ID==player.ClubId);
+               club.FootballPlayers.Remove(player);
+                Club clubnew=DataContext.Clubs.Find(ncl=>ncl.ID==newClubid);
+                clubnew.FootballPlayers.Add(player);
+                Notifications.Print(ConsoleColor.Cyan, $"{player.PlayerName}transfered to {clubnew.ClubName}");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        
+        
         }
     }
 }

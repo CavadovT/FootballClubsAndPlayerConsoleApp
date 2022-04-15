@@ -47,7 +47,7 @@ namespace Business.Services
 
         public List<FootballPlayer> Get(string fitlrname = null)
         {
-            throw new NotImplementedException();
+            return _footballPlayerRepository.Get();
         }
 
         public FootballPlayer Update(int playerId, FootballPlayer player)

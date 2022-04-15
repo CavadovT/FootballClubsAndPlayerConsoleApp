@@ -15,7 +15,5 @@ namespace Business.Interfaces
 
         List<FootballPlayer> Get(string fitlrname=null);
 
-
-
     }
 }
