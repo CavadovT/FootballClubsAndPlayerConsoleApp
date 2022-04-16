@@ -1,4 +1,5 @@
 ﻿using Business.Services;
+using DataAccess;
 using Entities.Models;
 using System;
 using System.Collections.Generic;
@@ -50,43 +51,63 @@ namespace FootballClubsAndPlayer.Controllers
 
         public void GetPlayer()
         {
-            foreach (var item in playerService.Get())
+            if (DataContext.FootballPlayers.Count == 0) 
             {
-                Notifications.Print(ConsoleColor.Magenta, $"ID: {item.ID}---NAME: {item.PlayerName}---SURNAME: {item.PlayerSurname}----PLAYER AGE{item.Age}---PLAYER'S NUMBER: {item.PlayerName}");
+                Console.Beep();
+                Notifications.Print(ConsoleColor.Red, "Firstly you have to creat a player");
+            }
+            else
+            {
+                foreach (var item in playerService.Get())
+                {
+                    Notifications.Print(ConsoleColor.Magenta, $"ID: {item.ID}---NAME: {item.PlayerName}---SURNAME: {item.PlayerSurname}----PLAYER AGE{item.Age}---PLAYER'S NUMBER: {item.PlayerName}");
+                }
             }
         }
 
         public void UpdatePlayer()
         {
-            Notifications.Print(ConsoleColor.Blue, "All players");
-            GetPlayer();
-
-            Notifications.Print(ConsoleColor.Yellow, "Change the Player id for Update");
-            int idchange = Chek.NumTryPars();
-
-            FootballPlayer playernew = new FootballPlayer()
+            if (DataContext.FootballPlayers.Count == 0)
             {
-                PlayerName = Chek.StrNull(),
-                PlayerSurname = Chek.StrNull(),
-                Age = Chek.NumTryPars(),
-                PlayerNum = Chek.NumTryPars(),
+                Console.Beep();
+                Notifications.Print(ConsoleColor.Red, "Firstly you have to creat a player");
+            }
+            else
+            {
+                Notifications.Print(ConsoleColor.Blue, "All players");
+                GetPlayer();
 
-            };
-            playerService.Update(idchange, playernew);
+                Notifications.Print(ConsoleColor.Yellow, "Change the Player id for Update");
+                int idchange = Chek.NumTryPars();
+
+                FootballPlayer playernew = new FootballPlayer()
+                {
+                    PlayerName = Chek.StrNull(),
+                    PlayerSurname = Chek.StrNull(),
+                    Age = Chek.NumTryPars(),
+                    PlayerNum = Chek.NumTryPars(),
+                };
+                playerService.Update(idchange, playernew);
+            }
         }
-
         public void DeletePlayer()
         {
-            Notifications.Print(ConsoleColor.Blue, "All players");
-            GetPlayer();
+            if (DataContext.FootballPlayers.Count == 0)
+            {
+                Console.Beep();
+                Notifications.Print(ConsoleColor.Red, "Firstly you have to creat a player");
+            }
+            else
+            {
+                Notifications.Print(ConsoleColor.Blue, "All players");
+                GetPlayer();
 
-            Notifications.Print(ConsoleColor.Yellow, "Change the Player id for Delete");
-            int idchange = Chek.NumTryPars();
-            playerService.Delete(idchange);
-
+                Notifications.Print(ConsoleColor.Yellow, "Change the Player id for Delete");
+                int idchange = Chek.NumTryPars();
+                playerService.Delete(idchange);
+            }
         }
         #endregion
-
     }
 }
 

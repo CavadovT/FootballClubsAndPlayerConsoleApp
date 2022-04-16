@@ -33,50 +33,71 @@ namespace FootballClubsAndPlayer.Controllers
 
             clubService.Create(club);
             Notifications.Print(ConsoleColor.Yellow, $"{club.ClubName} created");
-
         }
 
         public void GetClubs()
         {
-            foreach (var item in clubService.Get())
+            if (DataContext.Clubs.Count == 0) 
             {
-                Notifications.Print(ConsoleColor.Blue, $"ID: {item.ID}--CLUB NAME: {item.ClubName}--TEAM CREATED: {item.CreatTeam.Year}\n");
-                foreach (var i in item.FootballPlayers)
+                Console.Beep();
+                Notifications.Print(ConsoleColor.Red, "Firstly you have to create a club");
+            }
+            else
+            {
+                foreach (var item in clubService.Get())
                 {
+                    Notifications.Print(ConsoleColor.Blue, $"ID: {item.ID}--CLUB NAME: {item.ClubName}--TEAM CREATED: {item.CreatTeam.Year}\n");
+                    foreach (var i in item.FootballPlayers)
+                    {
 
-                    Notifications.Print(ConsoleColor.Green, $"PlayerID: {i.ID}--NAME:{i.PlayerName}--SURNAME: {i.PlayerSurname}--AGE: {i.Age}");
-
+                        Notifications.Print(ConsoleColor.Green, $"PlayerID: {i.ID}--NAME:{i.PlayerName}--SURNAME: {i.PlayerSurname}--AGE: {i.Age}");
+                    }
                 }
             }
+           
         }
 
         public void UpdateClub()
         {
-            Notifications.Print(ConsoleColor.Red, "All Clubs");
-            GetClubs();
-
-            Notifications.Print(ConsoleColor.Yellow, "Change the Clup ID for Update");
-            int idchek = Chek.NumTryPars();
-
-            Club clubnew = new Club()
+            if (DataContext.Clubs.Count == 0)
             {
-                ClubName = Chek.StrNull(),
-                MaxPSize = Chek.NumTryPars(),
+                Console.Beep();
+                Notifications.Print(ConsoleColor.Red, "Firstly you have to create a club");
+            }
+            else
+            {
+                Notifications.Print(ConsoleColor.Red, "All Clubs");
+                GetClubs();
 
-            };
-            clubService.Update(clubnew, idchek);
+                Notifications.Print(ConsoleColor.Yellow, "Change the Clup ID for Update");
+                int idchek = Chek.NumTryPars();
 
+                Club clubnew = new Club()
+                {
+                    ClubName = Chek.StrNull(),
+                    MaxPSize = Chek.NumTryPars(),
+
+                };
+                clubService.Update(clubnew, idchek);
+            }
         }
 
         public void DeleteClub()
         {
-            Notifications.Print(ConsoleColor.Red, "All Clubs");
-            GetClubs();
+            if (DataContext.Clubs.Count == 0)
+            {
+                Console.Beep();
+                Notifications.Print(ConsoleColor.Red, "Firstly you have to create a club");
+            }
+            else
+            {
+                Notifications.Print(ConsoleColor.Red, "All Clubs");
+                GetClubs();
 
-            Notifications.Print(ConsoleColor.Yellow, "Change the Clup ID for Delete");
-            int idchek = Chek.NumTryPars();
-            clubService.Delete(idchek);
-
+                Notifications.Print(ConsoleColor.Yellow, "Change the Clup ID for Delete");
+                int idchek = Chek.NumTryPars();
+                clubService.Delete(idchek);
+            }
         }
 
         public void AddPlayerToClub()
