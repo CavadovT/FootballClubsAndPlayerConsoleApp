@@ -56,7 +56,9 @@ namespace FootballClubsAndPlayer.Controllers
             }
            
         }
-
+        /// <summary>
+        /// salam
+        /// </summary>
         public void UpdateClub()
         {
             if (DataContext.Clubs.Count == 0)
