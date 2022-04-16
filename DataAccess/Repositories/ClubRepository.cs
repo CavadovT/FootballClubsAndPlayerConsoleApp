@@ -103,15 +103,17 @@ namespace DataAccess.Repositories
             }
         }
 
-        public void TransferPlayer(FootballPlayer player, int newClubid)
+        public void TransferPlayer(int playerid, int oldClubid,int newClubid)
         {
             try
             {
-                Club club = DataContext.Clubs.Find(cl => cl.ID == player.ClubId);
-                club.FootballPlayers.Remove(player);
+                FootballPlayer player = DataContext.FootballPlayers.Find(pl => pl.ID == playerid);
+                Club clubold = DataContext.Clubs.Find(cl => cl.ID == oldClubid);
                 Club clubnew = DataContext.Clubs.Find(ncl => ncl.ID == newClubid);
-                clubnew.FootballPlayers = new List<FootballPlayer>();
+
+                clubold.FootballPlayers.Remove(player);
                 clubnew.FootballPlayers.Add(player);
+                
                 Notifications.Print(ConsoleColor.Cyan, $"{player.PlayerName}transfered to {clubnew.ClubName}");
             }
             catch (Exception)

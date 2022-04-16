@@ -60,7 +60,6 @@ namespace Business.Services
             isExist.PlayerSurname = player.PlayerSurname;
             isExist.PlayerName = player.PlayerName;
             isExist.Age = player.Age;
-           // isExist.ClubId = player.ClubId;
             isExist.PlayerNum = player.PlayerNum;
             _footballPlayerRepository.Update(player);
             return player;

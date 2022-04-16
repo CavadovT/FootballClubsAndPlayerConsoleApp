@@ -11,6 +11,7 @@ namespace Business.Services
     public class ClubService :IClub
     {
         public static int Count { get; set; }
+        public static int Countadd { get; set; }
         private ClubRepository _clubRepository;
         public ClubRepository ClubRepository
         {
@@ -33,6 +34,7 @@ namespace Business.Services
             club.ID = Count;
             _clubRepository.Create(club);
             return club;
+
 
         }
 
@@ -65,28 +67,40 @@ namespace Business.Services
             return club;
         }
 
-        public void AddPlayer(FootballPlayer player) 
+        public FootballPlayer AddPlayerToClub(FootballPlayer player) 
         {
+           
             Club club = _clubRepository.Find(c=>c.ID==player.ClubId);
             if (club == null)
             {
                 Notifications.Print(ConsoleColor.Red, $"with {player.ClubId} Id Club Not Found");
+                return null;
 
-            }
-            _clubRepository.AddPlayers(player);
-
-        }
-
-        public void TransferPlayer(FootballPlayer player, int clupId) 
-        {
-            Club clubfortransfer = _clubRepository.Find(cl => cl.ID == clupId);
-            if (clubfortransfer == null) 
-            {
-                Notifications.Print(ConsoleColor.Red, "transfer edilecek club duzgun deyil");
             }
             else
             {
-                _clubRepository.TransferPlayer(player, clupId);
+                Countadd++;
+                player.ID = Countadd;
+                _clubRepository.AddPlayers(player);
+                return player;
+
+            }
+        }
+
+        public Club TransferPlayer(int playerid, int oldclid, int newclupId) 
+        {
+            
+            Club clubold = _clubRepository.Find(cl => cl.ID == oldclid);
+            Club newclub=_clubRepository.Find(cl => cl.ID == newclupId);
+            if (clubold == null&&newclub==null) 
+            {
+                Notifications.Print(ConsoleColor.Red, "Plese change the currectly club old and new");
+                return null;
+            }
+            else
+            {
+                _clubRepository.TransferPlayer(playerid,oldclid,newclupId);
+                return newclub;
             }
         
         }

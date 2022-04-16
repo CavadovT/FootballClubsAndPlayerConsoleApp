@@ -3,7 +3,6 @@ using DataAccess.Repositories;
 using Entities.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using Utilities.Helper;
 
 namespace Business.Services
@@ -11,6 +10,7 @@ namespace Business.Services
     public class CountryService : ICountry
     {
         public static int Count { get; set; }
+        public static int Countadd { get; set; }
         private CountryRepository _countryRepository;
         public CountryRepository CountryRepository
         {
@@ -30,8 +30,8 @@ namespace Business.Services
 
         public Country Create(Country country)
         {
-           Count++;
-           country.ID = Count;
+            Count++;
+            country.ID = Count;
             _countryRepository.Create(country);
             return country;
         }
@@ -43,7 +43,7 @@ namespace Business.Services
         public Country Delete(int countryId)
         {
             Country country = _countryRepository.Find(cr => cr.ID == countryId);
-            if (country == null) 
+            if (country == null)
             {
                 Notifications.Print(ConsoleColor.Red, "BU idli seher yoxdur liste");
                 return null;
@@ -57,11 +57,11 @@ namespace Business.Services
             return _countryRepository.Get();
         }
 
-        public Country Update( Country country, int countryId)
+        public Country Update(Country country, int countryId)
         {
 
             Country isExist = _countryRepository.Find(c => c.ID == countryId);
-            if (isExist == null) 
+            if (isExist == null)
             {
                 Notifications.Print(ConsoleColor.Red, $"With {countryId} Id Country Not Found at database");
                 return null;
@@ -72,19 +72,26 @@ namespace Business.Services
                 Notifications.Print(ConsoleColor.Cyan, "Country updated");
                 return country;
             }
-            
+
         }
 
-        public void AddClub(Club club) 
+        public Country AddClub(Club club)
         {
-        Country county= _countryRepository.Find(c => c.ID == club.ID);
-            if (county == null) 
+            Country country= _countryRepository.Find(c => c.ID == club.CountryId);
+            if (country == null) 
             {
-                Notifications.Print(ConsoleColor.Red, " Bu id li olke yoxdur movcud bir olke secin");
-                
+                Notifications.Print(ConsoleColor.Red, "Bele olke yoxdur siyahida");
+                return null;
             }
-            _countryRepository.AddClub(club);
-        
+            else
+            {
+                Countadd++;
+                club.ID = Countadd;
+                _countryRepository.AddClub(club);
+                return country;
+
+            }
+
         }
     }
 }
