@@ -52,6 +52,35 @@ namespace FootballClubsAndPlayer.Controllers
             }
         }
 
+        public void UpdateCountry() 
+        {
+            Notifications.Print(ConsoleColor.Red, "All Countries");
+            GetCountry();
+
+            Notifications.Print(ConsoleColor.Yellow, "Change the Country ID for Update");
+            int idchek = Chek.NumTryPars();
+
+            Country countrynew = new Country()
+            {
+                CountryName = Chek.StrNull(),
+                CountryLanguage = Chek.StrNull(),
+
+            };
+            countryService.Update(countrynew, idchek);
+        }
+
+        public void DeleteCountry() 
+        {
+            Notifications.Print(ConsoleColor.Red, "All Countries");
+            GetCountry();
+
+            Notifications.Print(ConsoleColor.Yellow, "Change the Country ID for Delete");
+            int idchek = Chek.NumTryPars();
+
+            countryService.Delete(idchek);
+
+        }
+
         public void AddClubToCountry()
         {
             GetCountry();
