@@ -4,8 +4,8 @@
     {
         public enum Menu
         {
-            CretaCountry = 1, GetAllCountry, UpdateCountr, DeletCountry, CreatClub, GetClubs, UpdateClub, DeleteClub, CreatPlayer,
-            GetAllPlayers, UpdatePlayer, DeletePlayer, AddClubToCountry, AddPlayerToClub, TransferPlayerToAnyClub, Quit = 0
+            CretaCountry = 1, GetAllCountry, UpdateCountr, DeletCountry, AddClubToCountry, CreatClub, GetClubs, UpdateClub, DeleteClub, CreatPlayer,
+            GetAllPlayers, UpdatePlayer, DeletePlayer,  AddPlayerToClub, TransferPlayerToAnyClub, Quit = 0
         }
     }
 }

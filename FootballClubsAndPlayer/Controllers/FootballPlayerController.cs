@@ -13,6 +13,10 @@ namespace FootballClubsAndPlayer.Controllers
         FootballPlayerService playerService=new FootballPlayerService();
 
         #region METHODS
+
+        /// <summary>
+        /// Ayriliqda bir futbolcu yaratmaq
+        /// </summary>
         public void CreatPlayer()
         {
 
@@ -49,6 +53,9 @@ namespace FootballClubsAndPlayer.Controllers
 
         }
 
+        /// <summary>
+        /// Siyahidaki futbolculari gormek
+        /// </summary>
         public void GetPlayer()
         {
             if (DataContext.FootballPlayers.Count == 0) 
@@ -65,6 +72,9 @@ namespace FootballClubsAndPlayer.Controllers
             }
         }
 
+        /// <summary>
+        /// Burada Oyuncunun adi soyadi yasi ve oyuncu nomrelerini yeniden modifye ede bilerik
+        /// </summary>
         public void UpdatePlayer()
         {
             if (DataContext.FootballPlayers.Count == 0)
@@ -80,16 +90,33 @@ namespace FootballClubsAndPlayer.Controllers
                 Notifications.Print(ConsoleColor.Yellow, "Change the Player id for Update");
                 int idchange = Chek.NumTryPars();
 
+                Notifications.Print(ConsoleColor.Yellow, "Enter the new Name Player for Update");
+                string newname = Chek.StrNull();
+
+                Notifications.Print(ConsoleColor.Yellow, "Enter the new Surname Player for Update");
+                string newsurname = Chek.StrNull();
+
+                Notifications.Print(ConsoleColor.Yellow, "Enter the new Age Player for Update");
+                int newage = Chek.NumTryPars();
+
+                Notifications.Print(ConsoleColor.Yellow, "Enter the new Number Player for Update");
+                int newnum = Chek.NumTryPars();
+
+
                 FootballPlayer playernew = new FootballPlayer()
                 {
-                    PlayerName = Chek.StrNull(),
-                    PlayerSurname = Chek.StrNull(),
-                    Age = Chek.NumTryPars(),
-                    PlayerNum = Chek.NumTryPars(),
+                    PlayerName = newname,
+                    PlayerSurname =newsurname,
+                    Age =newage,
+                    PlayerNum = newnum,
                 };
                 playerService.Update(idchange, playernew);
             }
         }
+
+        /// <summary>
+        /// secilmis idli futbolcunu siyahidan silmek
+        /// </summary>
         public void DeletePlayer()
         {
             if (DataContext.FootballPlayers.Count == 0)

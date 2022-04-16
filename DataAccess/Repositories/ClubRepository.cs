@@ -74,13 +74,14 @@ namespace DataAccess.Repositories
         }
 
 
-        public void AddPlayers(FootballPlayer player)
+        public bool AddPlayers(FootballPlayer player)
         {
             try
             {
                 Club club = DataContext.Clubs.Find(cl => cl.ID == player.ClubId);
                 club.FootballPlayers.Add(player);
-                Notifications.Print(ConsoleColor.Cyan, $"{player.PlayerName}added to {club.ClubName}");
+                Notifications.Print(ConsoleColor.Cyan, $"{player.PlayerName} added to {club.ClubName}");
+                return true;
             }
             catch (Exception)
             {
