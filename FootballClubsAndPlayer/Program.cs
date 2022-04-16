@@ -11,26 +11,10 @@ namespace FootballClubsAndPlayer
             FootballPlayerController playercontrol = new FootballPlayerController();
             CountryController countrycontroller = new CountryController();
             ClubController clubcontroller = new ClubController();
+            Notifications.Print(ConsoleColor.Blue, "===WELCOME===");
             do
             {
-            /*
-               $"1-Creat Country\n" +
-            $"2-Get ALl Country\n" +
-            $"3-Update Countr\n" +
-            $"4-Delete Country\n" +
-            $"5-Creat Club\n" +
-            $"6-Add Club To Country\n" +
-            $"7-Delete Club\n" +
-            $"8-Update Club\n" +
-            $"9-Get All Clubs\n" +
-            $"10-Creat Player\n" +
-            $"11-Get All Players\n" +
-            $"12-Add Player To Club\n" +
-            $"13-Transfer Player To Any Club\n" +
-            $"14-Update Player\n" +
-            $"15-Delete Player\n" +
-            $"0-Exit is Program\n");
-             */
+            
             E1:
                 Menus.Menu();
                 int input = Chek.NumTryPars();
@@ -54,11 +38,22 @@ namespace FootballClubsAndPlayer
 
                         case (int)Enums.Menu.UpdateCountr:
                             Console.Clear();
-                            countrycontroller.
+                            countrycontroller.UpdateCountry();
+                            break;
+
+                        case (int)Enums.Menu.DeletCountry:
+                            Console.Clear();
+                            countrycontroller.DeleteCountry();
+                            break;
 
                         case (int)Enums.Menu.CreatClub:
                             Console.Clear();
                             clubcontroller.CreatClub();
+                            break;
+
+                        case (int)Enums.Menu.AddClubToCountry:
+                            Console.Clear();
+                            countrycontroller.AddClubToCountry();
                             break;
 
                         case (int)Enums.Menu.GetClubs:
@@ -66,10 +61,46 @@ namespace FootballClubsAndPlayer
                             clubcontroller.GetClubs();
                             break;
 
-                        case (int)Enums.Menu.AddClubToCountry:
+                        case (int)Enums.Menu.UpdateClub:
                             Console.Clear();
-                            countrycontroller.AddClubToCountry();
-                            break ;
+                            clubcontroller.UpdateClub();
+                            break;
+
+                        case (int)Enums.Menu.DeleteClub:
+                            Console.Clear();
+                            clubcontroller.DeleteClub();
+                            break;
+
+                        case (int)Enums.Menu.AddPlayerToClub:
+                            Console.Clear();
+                            clubcontroller.AddPlayerToClub();
+                            break;
+
+                        case (int)Enums.Menu.TransferPlayerToAnyClub:
+                            Console.Clear();
+                            clubcontroller.TransferPlayerToAnyClub();
+                            break;
+
+                        case (int)Enums.Menu.CreatPlayer:
+                            Console.Clear();
+                            playercontrol.CreatPlayer();
+                            break;
+
+                        case (int)Enums.Menu.GetAllPlayers:
+                            Console.Clear();
+                            playercontrol.GetPlayer();
+                            break;
+
+                        case (int)Enums.Menu.UpdatePlayer:
+                            Console.Clear();
+                            playercontrol.UpdatePlayer();
+                            break;
+
+                        case (int)Enums.Menu.DeletePlayer:
+                            Console.Clear();
+                            playercontrol.DeletePlayer();
+                            break;
+
                     }
                 }
                 else

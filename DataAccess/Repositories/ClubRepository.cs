@@ -79,7 +79,6 @@ namespace DataAccess.Repositories
             try
             {
                 Club club = DataContext.Clubs.Find(cl => cl.ID == player.ClubId);
-                club.FootballPlayers = new List<FootballPlayer>();
                 club.FootballPlayers.Add(player);
                 Notifications.Print(ConsoleColor.Cyan, $"{player.PlayerName}added to {club.ClubName}");
             }
@@ -107,14 +106,14 @@ namespace DataAccess.Repositories
         {
             try
             {
-                FootballPlayer player = DataContext.FootballPlayers.Find(pl => pl.ID == playerid);
+               
                 Club clubold = DataContext.Clubs.Find(cl => cl.ID == oldClubid);
+                
                 Club clubnew = DataContext.Clubs.Find(ncl => ncl.ID == newClubid);
 
-                clubold.FootballPlayers.Remove(player);
-                clubnew.FootballPlayers.Add(player);
+                clubnew.FootballPlayers.Add(clubold.FootballPlayers[playerid-1]);
+                clubold.FootballPlayers.Remove(clubold.FootballPlayers[playerid-1]);
                 
-                Notifications.Print(ConsoleColor.Cyan, $"{player.PlayerName}transfered to {clubnew.ClubName}");
             }
             catch (Exception)
             {

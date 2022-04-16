@@ -11,9 +11,10 @@ namespace FootballClubsAndPlayer.Controllers
     {
         FootballPlayerService playerService=new FootballPlayerService();
 
-        public void CreatPlayer() 
+        #region METHODS
+        public void CreatPlayer()
         {
-          
+
             Notifications.Print(ConsoleColor.Yellow, "Please enter the Player name:");
             string playerName = Chek.StrNull();
 
@@ -31,14 +32,14 @@ namespace FootballClubsAndPlayer.Controllers
             Notifications.Print(ConsoleColor.Yellow, "Please enter the Player Club Id:");
             int clubId = Chek.NumTryPars();
 
-            
+
             FootballPlayer player = new FootballPlayer()
             {
-               PlayerName = playerName,
-               PlayerSurname = playerSurname,
-               ClubId = clubId,
-               Age=age,
-               PlayerNum = playNum
+                PlayerName = playerName,
+                PlayerSurname = playerSurname,
+                ClubId = clubId,
+                Age = age,
+                PlayerNum = playNum
 
             };
 
@@ -47,7 +48,7 @@ namespace FootballClubsAndPlayer.Controllers
 
         }
 
-        public void GetPlayer() 
+        public void GetPlayer()
         {
             foreach (var item in playerService.Get())
             {
@@ -55,26 +56,26 @@ namespace FootballClubsAndPlayer.Controllers
             }
         }
 
-        public void UpdatePlayer() 
+        public void UpdatePlayer()
         {
             Notifications.Print(ConsoleColor.Blue, "All players");
             GetPlayer();
 
             Notifications.Print(ConsoleColor.Yellow, "Change the Player id for Update");
-            int idchange=Chek.NumTryPars();
+            int idchange = Chek.NumTryPars();
 
             FootballPlayer playernew = new FootballPlayer()
             {
                 PlayerName = Chek.StrNull(),
                 PlayerSurname = Chek.StrNull(),
-                Age=Chek.NumTryPars(),  
-                PlayerNum=Chek.NumTryPars(),
-              
+                Age = Chek.NumTryPars(),
+                PlayerNum = Chek.NumTryPars(),
+
             };
             playerService.Update(idchange, playernew);
         }
 
-        public void DeletePlayer() 
+        public void DeletePlayer()
         {
             Notifications.Print(ConsoleColor.Blue, "All players");
             GetPlayer();
@@ -84,6 +85,8 @@ namespace FootballClubsAndPlayer.Controllers
             playerService.Delete(idchange);
 
         }
+        #endregion
+
     }
 }
 

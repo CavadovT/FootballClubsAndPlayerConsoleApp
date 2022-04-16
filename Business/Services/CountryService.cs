@@ -80,7 +80,7 @@ namespace Business.Services
             Country country= _countryRepository.Find(c => c.ID == club.CountryId);
             if (country == null) 
             {
-                Notifications.Print(ConsoleColor.Red, "Bele olke yoxdur siyahida");
+                Notifications.Print(ConsoleColor.Red, "With this id Country Not Found at List");
                 return null;
             }
             else

@@ -1,4 +1,5 @@
 ﻿using Business.Services;
+using DataAccess;
 using Entities.Models;
 using System;
 using System.Collections.Generic;
@@ -8,23 +9,17 @@ namespace FootballClubsAndPlayer.Controllers
 {
     public class ClubController
     {
-        /*
-          public int ID { get; set; }
-        public string ClubName { get; set; }    
-        public int MaxPSize { get; set; }
-        public int CountryId { get; set; }
-        public DateTime CreatTeam { get; set; } 
-        public List<FootballPlayer> FootballPlayers { get; set; }
-         */
+        
         ClubService clubService = new ClubService();
 
+        #region METHODS
         public void CreatClub()
         {
             Notifications.Print(ConsoleColor.Yellow, "Please enter the Club name:");
             string clubName = Chek.StrNull();
             Notifications.Print(ConsoleColor.Yellow, "Please enter the Club Maximum player size:");
             int Msize = Chek.NumTryPars();
-            Notifications.Print(ConsoleColor.Yellow, "Please enter the Country Id size:");
+            Notifications.Print(ConsoleColor.Yellow, "Please enter the Country Id :");
             int Countid = Chek.NumTryPars();
             Club club = new Club()
             {
@@ -39,29 +34,29 @@ namespace FootballClubsAndPlayer.Controllers
             clubService.Create(club);
             Notifications.Print(ConsoleColor.Yellow, $"{club.ClubName} created");
 
-
         }
 
         public void GetClubs()
         {
             foreach (var item in clubService.Get())
             {
-                Notifications.Print(ConsoleColor.Blue, $"ID: {item.ID}--CLUB NAME: {item.ClubName}--TEAM CREATED: {item.CreatTeam.Year}");
+                Notifications.Print(ConsoleColor.Blue, $"ID: {item.ID}--CLUB NAME: {item.ClubName}--TEAM CREATED: {item.CreatTeam.Year}\n");
                 foreach (var i in item.FootballPlayers)
                 {
-                    Notifications.Print(ConsoleColor.Blue, i.ToString());
+
+                    Notifications.Print(ConsoleColor.Green, $"PlayerID: {i.ID}--NAME:{i.PlayerName}--SURNAME: {i.PlayerSurname}--AGE: {i.Age}");
 
                 }
             }
         }
 
-        public void UpdateClub() 
+        public void UpdateClub()
         {
             Notifications.Print(ConsoleColor.Red, "All Clubs");
             GetClubs();
 
             Notifications.Print(ConsoleColor.Yellow, "Change the Clup ID for Update");
-            int idchek=Chek.NumTryPars();
+            int idchek = Chek.NumTryPars();
 
             Club clubnew = new Club()
             {
@@ -69,11 +64,11 @@ namespace FootballClubsAndPlayer.Controllers
                 MaxPSize = Chek.NumTryPars(),
 
             };
-            clubService.Update(clubnew,idchek);
-        
+            clubService.Update(clubnew, idchek);
+
         }
 
-        public void DeleteClub() 
+        public void DeleteClub()
         {
             Notifications.Print(ConsoleColor.Red, "All Clubs");
             GetClubs();
@@ -84,59 +79,74 @@ namespace FootballClubsAndPlayer.Controllers
 
         }
 
-        public void AddPlayerToClub() 
+        public void AddPlayerToClub()
         {
-            GetClubs();
-
-            Notifications.Print(ConsoleColor.Yellow, "Please enter the Player name:");
-            string playerName = Chek.StrNull();
-
-            Notifications.Print(ConsoleColor.Yellow, "Please enter the Player surname:");
-            string playerSurname = Chek.StrNull();
-
-            Notifications.Print(ConsoleColor.Yellow, "Please enter the Player Age:");
-            int age = Chek.NumTryPars();
-
-
-            Notifications.Print(ConsoleColor.Yellow, "Please enter the Player Number:");
-            int playNum = Chek.NumTryPars();
-
-
-            Notifications.Print(ConsoleColor.Yellow, "Please enter the Player Club Id:");
-            int clubId = Chek.NumTryPars();
-
-
-            FootballPlayer player = new FootballPlayer()
+            if (DataContext.Clubs.Count == 0)
             {
-                PlayerName = playerName,
-                PlayerSurname = playerSurname,
-                ClubId = clubId,
-                Age = age,
-                PlayerNum = playNum
+                Console.Beep();
+                Notifications.Print(ConsoleColor.Red, "Firstly You have to creat a club");
+            }
+            else
+            {
+                GetClubs();
 
-            };
+                Notifications.Print(ConsoleColor.Yellow, "Please enter the Player name:");
+                string playerName = Chek.StrNull();
 
-            clubService.AddPlayerToClub(player);
-           
+                Notifications.Print(ConsoleColor.Yellow, "Please enter the Player surname:");
+                string playerSurname = Chek.StrNull();
+
+                Notifications.Print(ConsoleColor.Yellow, "Please enter the Player Age:");
+                int age = Chek.NumTryPars();
+
+
+                Notifications.Print(ConsoleColor.Yellow, "Please enter the Player Number:");
+                int playNum = Chek.NumTryPars();
+
+
+                Notifications.Print(ConsoleColor.Yellow, "Please enter the Player Club Id:");
+                int clubId = Chek.NumTryPars();
+
+
+                FootballPlayer player = new FootballPlayer()
+                {
+                    PlayerName = playerName,
+                    PlayerSurname = playerSurname,
+                    ClubId = clubId,
+                    Age = age,
+                    PlayerNum = playNum
+
+                };
+
+                clubService.AddPlayerToClub(player);
+            }
         }
 
-        public void TransferPlayerToAnyClub() 
+        public void TransferPlayerToAnyClub()
         {
-           
-            Notifications.Print(ConsoleColor.Green, "All Clubs and Players");
-            GetClubs();
+            if (DataContext.Clubs.Count == 0)
+            {
+                Console.Beep();
+                Notifications.Print(ConsoleColor.Red, "Firstly You have to creat a club");
+            }
+            else
+            {
+                Notifications.Print(ConsoleColor.Green, "All Clubs and Players");
+                GetClubs();
 
-            Notifications.Print(ConsoleColor.Red, "Change Id player for the transfer");
-            int playerid = Chek.NumTryPars();
+                Notifications.Print(ConsoleColor.Red, "Change Id player for the transfer");
+                int playerid = Chek.NumTryPars();
 
-            Notifications.Print(ConsoleColor.Red, "Change Old Clubd id for the transfer");
-            int oldclubid = Chek.NumTryPars();
+                Notifications.Print(ConsoleColor.Red, "Change Old Clubd id for the transfer");
+                int oldclubid = Chek.NumTryPars();
 
-            Notifications.Print(ConsoleColor.Red, "Change New Club Id for the transfer");
-            int newclubid = Chek.NumTryPars();
+                Notifications.Print(ConsoleColor.Red, "Change New Club Id for the transfer");
+                int newclubid = Chek.NumTryPars();
 
-            clubService.TransferPlayer(playerid, oldclubid, newclubid);
+                clubService.TransferPlayer(playerid, oldclubid, newclubid);
+            }
 
         }
+        #endregion
     }
 }

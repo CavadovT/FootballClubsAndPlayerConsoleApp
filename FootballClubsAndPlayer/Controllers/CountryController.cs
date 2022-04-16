@@ -1,4 +1,5 @@
 ﻿using Business.Services;
+using DataAccess;
 using Entities.Models;
 using System;
 using System.Collections.Generic;
@@ -9,16 +10,9 @@ namespace FootballClubsAndPlayer.Controllers
 {
     public class CountryController
     {
-
-        /*
-          public int ID { get; set; }
-        public string  CountryName { get; set; }
-        public string CountryLanguage { get; set; }
-        public List<Club>Clubs { get; set; }
-         */
         CountryService countryService = new CountryService();
 
-        #region Methods
+        #region METHODS
 
         public void CreatCountry()
         {
@@ -42,64 +36,96 @@ namespace FootballClubsAndPlayer.Controllers
 
         public void GetCountry()
         {
-            foreach (var item in countryService.Get())
+            if (DataContext.Countrys.Count == 0)
             {
-                Notifications.Print(ConsoleColor.Blue, $"{item.ID}--{item.CountryName}");
-                foreach (var i in item.Clubs)
+                Console.Beep();
+                Notifications.Print(ConsoleColor.Red, "Firstly You Have to Create a Country");
+            }
+            else
+            {
+                foreach (var item in countryService.Get())
                 {
-                    Notifications.Print(ConsoleColor.Green, $"{i.ID}--{i.ClubName}--{i.CreatTeam}");
+                    Notifications.Print(ConsoleColor.Blue, $"ID: {item.ID}--{item.CountryName}");
+                    foreach (var i in item.Clubs)
+                    {
+                        Notifications.Print(ConsoleColor.Green, $"  \nClID: {i.ID}--ClName: {i.ClubName}--ClCratYear: {i.CreatTeam.Date}");
+                    }
                 }
             }
+
         }
 
         public void UpdateCountry() 
         {
-            Notifications.Print(ConsoleColor.Red, "All Countries");
-            GetCountry();
-
-            Notifications.Print(ConsoleColor.Yellow, "Change the Country ID for Update");
-            int idchek = Chek.NumTryPars();
-
-            Country countrynew = new Country()
+            if (DataContext.Countrys.Count == 0)
             {
-                CountryName = Chek.StrNull(),
-                CountryLanguage = Chek.StrNull(),
+                Console.Beep();
+                Notifications.Print(ConsoleColor.Red, "Firstly You Have to Create a Country");
+            }
+            else
+            {
+                Notifications.Print(ConsoleColor.Red, "All Countries");
+                GetCountry();
 
-            };
-            countryService.Update(countrynew, idchek);
+                Notifications.Print(ConsoleColor.Yellow, "Change the Country ID for Update");
+                int idchek = Chek.NumTryPars();
+
+                Country countrynew = new Country()
+                {
+                    CountryName = Chek.StrNull(),
+                    CountryLanguage = Chek.StrNull(),
+
+                };
+                countryService.Update(countrynew, idchek);
+            }
+
         }
 
         public void DeleteCountry() 
         {
-            Notifications.Print(ConsoleColor.Red, "All Countries");
-            GetCountry();
+            if (DataContext.Countrys.Count == 0)
+            {
+                Console.Beep();
+                Notifications.Print(ConsoleColor.Red, "Firstly You Have to Create a Country");
+            }
+            else
+            {
+                Notifications.Print(ConsoleColor.Red, "All Countries");
+                GetCountry();
 
-            Notifications.Print(ConsoleColor.Yellow, "Change the Country ID for Delete");
-            int idchek = Chek.NumTryPars();
+                Notifications.Print(ConsoleColor.Yellow, "Change the Country ID for Delete");
+                int idchek = Chek.NumTryPars();
 
-            countryService.Delete(idchek);
-
+                countryService.Delete(idchek);
+            }
         }
 
         public void AddClubToCountry()
         {
-            GetCountry();
-            Notifications.Print(ConsoleColor.Yellow, "Please enter the Club name:");
-            string clubName = Chek.StrNull();
-            Notifications.Print(ConsoleColor.Yellow, "Please enter the Club Maximum player size:");
-            int Msize = Chek.NumTryPars();
-            Notifications.Print(ConsoleColor.Yellow, "Please enter the Country Id :");
-            int Countid = Chek.NumTryPars();
-            Club club = new Club()
+            if (DataContext.Countrys.Count == 0)
             {
-                ClubName = clubName,
-                MaxPSize = Msize,
-                CountryId = Countid,
-                CreatTeam = DateTime.Today,
-            };
-
-            countryService.AddClub(club);
-            Notifications.Print(ConsoleColor.Yellow, $"{club.ClubName} added to");
+                Console.Beep();
+                Notifications.Print(ConsoleColor.Red, "Firstly You Have to Create a Country");
+            }
+            else 
+            {
+                GetCountry();
+                Notifications.Print(ConsoleColor.Yellow, "Please enter the Club name:");
+                string clubName = Chek.StrNull();
+                Notifications.Print(ConsoleColor.Yellow, "Please enter the Club Maximum player size:");
+                int Msize = Chek.NumTryPars();
+                Notifications.Print(ConsoleColor.Yellow, "Please enter the Country Id :");
+                int Countid = Chek.NumTryPars();
+                Club club = new Club()
+                {
+                    ClubName = clubName,
+                    MaxPSize = Msize,
+                    CountryId = Countid,
+                    CreatTeam = DateTime.Today,
+                };
+                countryService.AddClub(club);
+                Notifications.Print(ConsoleColor.Yellow, $"{club.ClubName} added to");
+            }
         }
         #endregion
 
