@@ -69,13 +69,13 @@ namespace DataAccess.Repositories
         }
 
        
-        public void  AddClub(Club club)
+        public bool  AddClub(Club club,int countryid)
         {
             try
             {
-                Country country = DataContext.Countrys.Find(cl => cl.ID == club.CountryId);
+                Country country = DataContext.Countrys.Find(cl => cl.ID == countryid);
                 country.Clubs.Add(club);
-                Notifications.Print(ConsoleColor.Cyan, $"{club.ClubName}  added to {country.CountryName}");
+                return true;
             }
             catch (Exception)
             {

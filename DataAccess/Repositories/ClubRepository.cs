@@ -73,23 +73,6 @@ namespace DataAccess.Repositories
 
         }
 
-
-        public bool AddPlayers(FootballPlayer player)
-        {
-            try
-            {
-                Club club = DataContext.Clubs.Find(cl => cl.ID == player.ClubId);
-                club.FootballPlayers.Add(player);
-                Notifications.Print(ConsoleColor.Cyan, $"{player.PlayerName} added to {club.ClubName}");
-                return true;
-            }
-            catch (Exception)
-            {
-
-                throw;
-            }
-        }
-
         public Club Find(Predicate<Club> filter = null)
         {
             try
@@ -103,7 +86,23 @@ namespace DataAccess.Repositories
             }
         }
 
-        public void TransferPlayer(int playerid, int oldClubid,int newClubid)
+        public bool AddPlayer(FootballPlayer player,int clubid)
+        {
+            try
+            {
+                Club club = DataContext.Clubs.Find(cl => cl.ID == clubid);
+                club.FootballPlayers.Add(player);
+                //Notifications.Print(ConsoleColor.Cyan, $"{player.PlayerName} added to {club.ClubName}");
+                return true;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public bool TransferPlayer(int playirid, int oldClubid,int newClubid)
         {
             try
             {
@@ -112,8 +111,11 @@ namespace DataAccess.Repositories
                 
                 Club clubnew = DataContext.Clubs.Find(ncl => ncl.ID == newClubid);
 
-                clubnew.FootballPlayers.Add(clubold.FootballPlayers[playerid-1]);
-                clubold.FootballPlayers.Remove(clubold.FootballPlayers[playerid-1]);
+                FootballPlayer player = clubold.FootballPlayers[playirid];
+                player.ID = clubnew.FootballPlayers.Count;
+                clubnew.FootballPlayers.Add(player);
+                clubold.FootballPlayers.Remove(player);
+                return true;
                 
             }
             catch (Exception)

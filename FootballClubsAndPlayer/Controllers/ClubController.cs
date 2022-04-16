@@ -50,7 +50,7 @@ namespace FootballClubsAndPlayer.Controllers
                     foreach (var i in item.FootballPlayers)
                     {
 
-                        Notifications.Print(ConsoleColor.Green, $"PlayerID: {i.ID}--NAME:{i.PlayerName}--SURNAME: {i.PlayerSurname}--AGE: {i.Age}");
+                        Notifications.Print(ConsoleColor.White, $"PlayerID: {i.ID}--NAME:{i.PlayerName}--SURNAME: {i.PlayerSurname}--AGE: {i.Age}");
                     }
                 }
             }

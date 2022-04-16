@@ -11,6 +11,7 @@ namespace Business.Services
     {
         public static int Count { get; set; }
         private FootballPlayerRepository _footballPlayerRepository;
+
         public FootballPlayerRepository FootballPlayerRepository
         {
             get
@@ -45,9 +46,14 @@ namespace Business.Services
             return isExist;
         }
 
-        public List<FootballPlayer> Get(string fitlrname = null)
+        public List<FootballPlayer> Get(string filtername = null)
         {
-            return _footballPlayerRepository.Get();
+            List<FootballPlayer> isExist =filtername==null? _footballPlayerRepository.Get():_footballPlayerRepository.Get(s=>s.PlayerName==filtername);
+            if (isExist == null) 
+            {
+                Notifications.Print(ConsoleColor.Red, "Nothing Found");
+            }
+            return isExist;
         }
 
         public FootballPlayer Update(int playerId, FootballPlayer player)
@@ -62,7 +68,7 @@ namespace Business.Services
             isExist.Age = player.Age;
             isExist.PlayerNum = player.PlayerNum;
             _footballPlayerRepository.Update(player);
-            return player;
+            return isExist;
         }
     }
 }

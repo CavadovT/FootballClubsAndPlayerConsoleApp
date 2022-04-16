@@ -35,11 +35,11 @@ namespace Business.Services
             _countryRepository.Create(country);
             return country;
         }
-        /// <summary>
-        /// Olkeni silmek hecde mentiqi deyil sadece silirem ki listden silmeyi gorum....
-        /// </summary>
-        /// <param name="countryId"></param>
-        /// <returns></returns>
+     /// <summary>
+     /// Siyahidan olkeni silmek gelen Idli
+     /// </summary>
+     /// <param name="countryId"></param>
+     /// <returns></returns>
         public Country Delete(int countryId)
         {
             Country country = _countryRepository.Find(cr => cr.ID == countryId);
@@ -52,11 +52,29 @@ namespace Business.Services
             return country;
         }
 
+        /// <summary>
+        /// eger filter gondermesek butun siyahini qaytarir, filter gondersek gonderilen adli olkeleri qaytarir, tapmazsa message qaaytarir
+        /// </summary>
+        /// <param name="countryName"></param>
+        /// <returns></returns>
         public List<Country> Get(string countryName = null)
         {
-            return _countryRepository.Get();
+
+            List<Country>isExist= countryName == null ? _countryRepository.Get() : _countryRepository.Get(c=>c.CountryName==countryName);
+            if (isExist == null) 
+            {
+                Notifications.Print(ConsoleColor.Red, "Nothing Found");
+            }
+            return isExist; 
+            
         }
 
+        /// <summary>
+        /// Olkenin infolarini modifiye edir!!!
+        /// </summary>
+        /// <param name="country"></param>
+        /// <param name="countryId"></param>
+        /// <returns></returns>
         public Country Update(Country country, int countryId)
         {
 
@@ -68,6 +86,8 @@ namespace Business.Services
             }
             else
             {
+                isExist.CountryName = country.CountryName;
+                isExist.CountryLanguage = country.CountryLanguage;
                 _countryRepository.Update(isExist);
                 Notifications.Print(ConsoleColor.Cyan, "Country updated");
                 return country;
@@ -75,9 +95,19 @@ namespace Business.Services
 
         }
 
-        public Country AddClub(Club club)
+        /// <summary>
+        /// bir olke daxilinde club ve klubral yaratmaq ucun
+        /// </summary>
+        /// <param name="club"></param>
+        /// <param name="countryId"></param>
+        /// <returns></returns>
+        public Country AddClubToCountry(Club club,int countryId)
         {
-            Country country= _countryRepository.Find(c => c.ID == club.CountryId);
+            if (club.CountryId != countryId) 
+            {
+                Notifications.Print(ConsoleColor.Red, "countryid and clubs country id is different");
+            }
+            Country country= _countryRepository.Find(c => c.ID == countryId);
             if (country == null) 
             {
                 Notifications.Print(ConsoleColor.Red, "With this id Country Not Found at List");
@@ -87,7 +117,7 @@ namespace Business.Services
             {
                 Countadd++;
                 club.ID = Countadd;
-                _countryRepository.AddClub(club);
+                _countryRepository.AddClub(club, countryId);
                 return country;
 
             }

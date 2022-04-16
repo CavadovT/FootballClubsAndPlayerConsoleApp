@@ -123,7 +123,7 @@ namespace FootballClubsAndPlayer.Controllers
                     CountryId = Countid,
                     CreatTeam = DateTime.Today,
                 };
-                countryService.AddClub(club);
+                countryService.AddClubToCountry(club,Countid);
                 Notifications.Print(ConsoleColor.Yellow, $"{club.ClubName} added to");
             }
         }
