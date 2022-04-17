@@ -13,6 +13,10 @@ namespace FootballClubsAndPlayer.Controllers
         ClubService clubService = new ClubService();
 
         #region METHODS
+
+        /// <summary>
+        /// Daxil edilen melumatlar daxilinde klub yaradib siyahiya add edir
+        /// </summary>
         public void CreatClub()
         {
             Notifications.Print(ConsoleColor.Yellow, "Please enter the Club name:");
@@ -33,7 +37,9 @@ namespace FootballClubsAndPlayer.Controllers
             clubService.Create(club);
             Notifications.Print(ConsoleColor.Yellow, $"{club.ClubName} created");
         }
-
+            /// <summary>
+            /// Eger her hansi bir ad versem o adda olan klublari cixardacaq ekrana
+            /// </summary>
         public void GetClubs()
         {
             if (DataContext.Clubs.Count == 0)
@@ -45,7 +51,7 @@ namespace FootballClubsAndPlayer.Controllers
             {
                 foreach (var item in clubService.Get())
                 {
-                    Notifications.Print(ConsoleColor.Blue, $"ID: {item.ID}--CLUB NAME: {item.ClubName}--TEAM CREATED: {item.CreatTeam.Year}\n");
+                    Notifications.Print(ConsoleColor.Blue, $"ID: {item.ID}--CLUB NAME: {item.ClubName}--TEAM CREATED: {item.CreatTeam.Year}");
                     foreach (var i in item.FootballPlayers)
                     {
 
@@ -56,6 +62,9 @@ namespace FootballClubsAndPlayer.Controllers
 
         }
 
+        /// <summary>
+        /// clubun verilmis yeni infolarini bazadaki idli clubun infolarina deyisir
+        /// </summary>
         public void UpdateClub()
         {
             if (DataContext.Clubs.Count == 0)
@@ -81,6 +90,9 @@ namespace FootballClubsAndPlayer.Controllers
             }
         }
 
+        /// <summary>
+        /// verilen idli klubu bazadan silir
+        /// </summary>
         public void DeleteClub()
         {
             if (DataContext.Clubs.Count == 0)
@@ -99,6 +111,9 @@ namespace FootballClubsAndPlayer.Controllers
             }
         }
 
+        /// <summary>
+        /// secilen id li kluba verilmis melubatlar daxilinde oyuncular add etmek ucundu
+        /// </summary>
         public void AddPlayerToClub()
         {
             if (DataContext.Clubs.Count == 0)
@@ -156,6 +171,9 @@ namespace FootballClubsAndPlayer.Controllers
             }
         }
 
+        /// <summary>
+        /// daxil edilmis id li oyuncunu secilmis klubdan yeni secilen kluba transfer edir
+        /// </summary>
         public void TransferPlayerToAnyClub()
         {
             if (DataContext.Clubs.Count == 0)

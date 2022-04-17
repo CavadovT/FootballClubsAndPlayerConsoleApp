@@ -13,7 +13,9 @@ namespace FootballClubsAndPlayer.Controllers
         CountryService countryService = new CountryService();
 
         #region METHODS
-
+        /// <summary>
+        /// siyahida ve ya liste daxil edilmis infolar daxilinde yeni bir olke colleksiyasi yaradir
+        /// </summary>
         public void CreatCountry()
         {
             Notifications.Print(ConsoleColor.Yellow, "Please enter the country name:");
@@ -31,9 +33,10 @@ namespace FootballClubsAndPlayer.Controllers
             countryService.Create(country);
             Notifications.Print(ConsoleColor.Yellow, $"{country.CountryName} created");
 
-
         }
-
+        /// <summary>
+        /// eger parametr gonderilibse hemin parametrli olkeni yox eger gonderilmeyibsa susmaya gore butun olkeleri siyahidan gosterir
+        /// </summary>
         public void GetCountry()
         {
             if (DataContext.Countrys.Count == 0)
@@ -54,7 +57,9 @@ namespace FootballClubsAndPlayer.Controllers
             }
 
         }
-
+        /// <summary>
+        /// daxil edilmis id li olkenin infolarini yeni daxil edilen melumatlarla deyisir
+        /// </summary>
         public void UpdateCountry() 
         {
             if (DataContext.Countrys.Count == 0)
@@ -86,7 +91,9 @@ namespace FootballClubsAndPlayer.Controllers
             }
 
         }
-
+        /// <summary>
+        /// bazada olan ve daxil edilmis id li olkeni siyahidan silir
+        /// </summary>
         public void DeleteCountry() 
         {
             if (DataContext.Countrys.Count == 0)
@@ -105,7 +112,9 @@ namespace FootballClubsAndPlayer.Controllers
                 countryService.Delete(idchek);
             }
         }
-
+        /// <summary>
+        /// Daxil edilmis id li klubu daxil edilmis id li olkeye add edir
+        /// </summary>
         public void AddClubToCountry()
         {
             if (DataContext.Countrys.Count == 0)

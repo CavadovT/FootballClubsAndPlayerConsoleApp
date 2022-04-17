@@ -102,7 +102,7 @@ namespace Business.Services
                 Notifications.Print(ConsoleColor.Red, $"with {player.ClubId} Id Club Not Found");
                 return null;
             }
-            else if (club.MaxPSize < club.FootballPlayers.Count) 
+            else if (club.MaxPSize <= club.FootballPlayers.Count) 
             {
                 Notifications.Print(ConsoleColor.Red, "Club capasity is max, you don't add player to here!!!");
                 return null;
@@ -138,7 +138,7 @@ namespace Business.Services
                 Notifications.Print(ConsoleColor.Red, "Plese change the currectly ");
                 return null;
             }
-            else if (newclub.FootballPlayers.Count == newclub.MaxPSize) 
+            else if (newclub.FootballPlayers.Count >= newclub.MaxPSize) 
             {
                 Notifications.Print(ConsoleColor.Red, "This club is max player. You don't add player to here!!!");
                 return null;
