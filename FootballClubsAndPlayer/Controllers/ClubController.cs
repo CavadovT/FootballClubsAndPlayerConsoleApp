@@ -51,7 +51,7 @@ namespace FootballClubsAndPlayer.Controllers
             {
                 foreach (var item in clubService.Get())
                 {
-                    Notifications.Print(ConsoleColor.Blue, $"ID: {item.ID}--CLUB NAME: {item.ClubName}--TEAM CREATED: {item.CreatTeam.Year}");
+                    Notifications.Print(ConsoleColor.Blue, $"ID: {item.ID}--CLUB NAME: {item.ClubName}--TEAM CREATED: {item.CreatTeam.Month}/{item.CreatTeam.Day}/{item.CreatTeam.Year}");
                     foreach (var i in item.FootballPlayers)
                     {
 
@@ -80,10 +80,17 @@ namespace FootballClubsAndPlayer.Controllers
                 Notifications.Print(ConsoleColor.Yellow, "Change the Clup ID for Update");
                 int idchek = Chek.NumTryPars();
 
+                Notifications.Print(ConsoleColor.Yellow, "Enter the new Name to Clup for Update");
+                string newname=Chek.StrNull();
+
+                Notifications.Print(ConsoleColor.Yellow, "Enter the new size to Clup for Update");
+                int newsize = Chek.NumTryPars();
+
+
                 Club clubnew = new Club()
                 {
-                    ClubName = Chek.StrNull(),
-                    MaxPSize = Chek.NumTryPars(),
+                    ClubName = newname,
+                    MaxPSize = newsize,
 
                 };
                 clubService.Update(clubnew, idchek);

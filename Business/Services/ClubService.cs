@@ -81,6 +81,7 @@ namespace Business.Services
                 return null;
             }
             isExist.ClubName = club.ClubName;
+            isExist.MaxPSize = club.MaxPSize;
             _clubRepository.Update(isExist);
             return isExist;
         }
