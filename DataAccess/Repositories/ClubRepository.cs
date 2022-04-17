@@ -111,8 +111,8 @@ namespace DataAccess.Repositories
                 
                 Club clubnew = DataContext.Clubs.Find(ncl => ncl.ID == newClubid);
 
-                FootballPlayer player = clubold.FootballPlayers[playirid];
-                player.ID = clubnew.FootballPlayers.Count;
+                FootballPlayer player = clubold.FootballPlayers[playirid-1];
+                player.ID = clubnew.FootballPlayers.Count+1;
                 clubnew.FootballPlayers.Add(player);
                 clubold.FootballPlayers.Remove(player);
                 return true;

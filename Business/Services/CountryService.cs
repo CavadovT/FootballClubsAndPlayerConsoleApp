@@ -10,7 +10,6 @@ namespace Business.Services
     public class CountryService : ICountry
     {
         public static int Count { get; set; }
-        public static int Countadd { get; set; }
         private CountryRepository _countryRepository;
         public CountryRepository CountryRepository
         {
@@ -103,6 +102,7 @@ namespace Business.Services
         /// <returns></returns>
         public Country AddClubToCountry(Club club,int countryId)
         {
+            
             if (club.CountryId != countryId) 
             {
                 Notifications.Print(ConsoleColor.Red, "countryid and clubs country id is different");
@@ -115,8 +115,8 @@ namespace Business.Services
             }
             else
             {
-                Countadd++;
-                club.ID = Countadd;
+
+                club.ID = country.Clubs.Count + 1;
                 _countryRepository.AddClub(club, countryId);
                 return country;
 

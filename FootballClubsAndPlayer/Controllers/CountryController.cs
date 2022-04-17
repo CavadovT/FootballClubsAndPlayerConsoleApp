@@ -48,7 +48,7 @@ namespace FootballClubsAndPlayer.Controllers
                     Notifications.Print(ConsoleColor.Blue, $"ID: {item.ID}--{item.CountryName}");
                     foreach (var i in item.Clubs)
                     {
-                        Notifications.Print(ConsoleColor.Green, $"  \nClID: {i.ID}--ClName: {i.ClubName}--ClCratYear: {i.CreatTeam.Date}");
+                        Notifications.Print(ConsoleColor.White, $"  \nClID: {i.ID}--ClName: {i.ClubName}--Club Created {i.CreatTeam.Month}/{i.CreatTeam.Day}/{i.CreatTeam.Year}");
                     }
                 }
             }
@@ -70,10 +70,16 @@ namespace FootballClubsAndPlayer.Controllers
                 Notifications.Print(ConsoleColor.Yellow, "Change the Country ID for Update");
                 int idchek = Chek.NumTryPars();
 
+                Notifications.Print(ConsoleColor.Green, "Enter the new name For Update Country");
+                string newname = Chek.StrNull();
+
+                Notifications.Print(ConsoleColor.Green, "Enter the new language For Update Country");
+                string newlang = Chek.StrNull();
+
                 Country countrynew = new Country()
                 {
-                    CountryName = Chek.StrNull(),
-                    CountryLanguage = Chek.StrNull(),
+                    CountryName = newname,
+                    CountryLanguage = newlang,
 
                 };
                 countryService.Update(countrynew, idchek);
@@ -110,12 +116,15 @@ namespace FootballClubsAndPlayer.Controllers
             else 
             {
                 GetCountry();
+                Notifications.Print(ConsoleColor.Yellow, "Please check and enter the Country Id for add :");
+                int Countid = Chek.NumTryPars();
+
                 Notifications.Print(ConsoleColor.Yellow, "Please enter the Club name:");
                 string clubName = Chek.StrNull();
+
                 Notifications.Print(ConsoleColor.Yellow, "Please enter the Club Maximum player size:");
                 int Msize = Chek.NumTryPars();
-                Notifications.Print(ConsoleColor.Yellow, "Please enter the Country Id :");
-                int Countid = Chek.NumTryPars();
+                
                 Club club = new Club()
                 {
                     ClubName = clubName,
@@ -123,8 +132,9 @@ namespace FootballClubsAndPlayer.Controllers
                     CountryId = Countid,
                     CreatTeam = DateTime.Today,
                 };
+ 
                 countryService.AddClubToCountry(club,Countid);
-                Notifications.Print(ConsoleColor.Yellow, $"{club.ClubName} added to");
+                Notifications.Print(ConsoleColor.Yellow, $"{club.ClubName} added to Country");
             }
         }
         #endregion

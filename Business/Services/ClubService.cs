@@ -11,7 +11,6 @@ namespace Business.Services
     public class ClubService :IClub
     {
         public static int Count { get; set; }
-        public static int Countadd { get; set; }
         private ClubRepository _clubRepository;
         public ClubRepository ClubRepository
         {
@@ -85,29 +84,37 @@ namespace Business.Services
             _clubRepository.Update(isExist);
             return isExist;
         }
+
         /// <summary>
         /// gelen playeri onun idsindeki kluba add eliyir
         /// </summary>
         /// <param name="player"></param>
         /// <returns></returns>
+        /// 
+
         public FootballPlayer AddPlayerToClub(FootballPlayer player) 
         {
            
             Club club = _clubRepository.Find(c=>c.ID==player.ClubId);
+
             if (club == null)
             {
                 Notifications.Print(ConsoleColor.Red, $"with {player.ClubId} Id Club Not Found");
                 return null;
             }
+            else if (club.MaxPSize < club.FootballPlayers.Count) 
+            {
+                Notifications.Print(ConsoleColor.Red, "Club capasity is max, you don't add player to here!!!");
+                return null;
+            }
             else
             {
-                
-                player.ID =club.FootballPlayers.Count;
-                _clubRepository.AddPlayer(player,player.ClubId);
+                player.ID = club.FootballPlayers.Count + 1;
+                _clubRepository.AddPlayer(player, player.ClubId);
                 return player;
-
             }
         }
+
         /// <summary>
         /// gelen idli futbolcunun kohne klubdan silir yeni kluba elave edir
         /// </summary>
@@ -115,8 +122,14 @@ namespace Business.Services
         /// <param name="oldclid"></param>
         /// <param name="newclupId"></param>
         /// <returns></returns>
+        
         public Club TransferPlayer(int playerid, int oldclid, int newclupId) 
         {
+            if (newclupId == oldclid) 
+            {
+                Notifications.Print(ConsoleColor.Red, "This transfer was not selected correctly.");
+                return null;
+            }
             
             Club clubold = _clubRepository.Find(cl => cl.ID == oldclid);
             Club newclub=_clubRepository.Find(cl => cl.ID == newclupId);
@@ -136,7 +149,7 @@ namespace Business.Services
                 _clubRepository.TransferPlayer(playerid, oldclid, newclupId);
                 for (int i = 0; i < clubold.FootballPlayers.Count; i++)
                 {
-                    clubold.FootballPlayers[i].ID = i;
+                    clubold.FootballPlayers[i].ID = i+1;
                 }
                 return newclub;
             }

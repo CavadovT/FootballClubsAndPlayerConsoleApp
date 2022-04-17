@@ -9,7 +9,7 @@ namespace FootballClubsAndPlayer.Controllers
 {
     public class ClubController
     {
-        
+
         ClubService clubService = new ClubService();
 
         #region METHODS
@@ -25,7 +25,6 @@ namespace FootballClubsAndPlayer.Controllers
             {
                 ClubName = clubName,
                 MaxPSize = Msize,
-                CountryId = Countid,
                 CreatTeam = DateTime.Today,
                 FootballPlayers = new List<FootballPlayer>()
 
@@ -37,7 +36,7 @@ namespace FootballClubsAndPlayer.Controllers
 
         public void GetClubs()
         {
-            if (DataContext.Clubs.Count == 0) 
+            if (DataContext.Clubs.Count == 0)
             {
                 Console.Beep();
                 Notifications.Print(ConsoleColor.Red, "Firstly you have to create a club");
@@ -54,9 +53,9 @@ namespace FootballClubsAndPlayer.Controllers
                     }
                 }
             }
-           
+
         }
-       
+
         public void UpdateClub()
         {
             if (DataContext.Clubs.Count == 0)
@@ -116,18 +115,32 @@ namespace FootballClubsAndPlayer.Controllers
 
                 Notifications.Print(ConsoleColor.Yellow, "Please enter the Player surname:");
                 string playerSurname = Chek.StrNull();
-
+            A:
                 Notifications.Print(ConsoleColor.Yellow, "Please enter the Player Age:");
                 int age = Chek.NumTryPars();
-
-
+                if (age == 0)
+                {
+                    Notifications.Print(ConsoleColor.Red, "Age doesn't be zero or minus!! please enter the correctly");
+                    goto A;
+                }
+            Play:
                 Notifications.Print(ConsoleColor.Yellow, "Please enter the Player Number:");
                 int playNum = Chek.NumTryPars();
-
+                foreach (var item in clubService.Get())
+                {
+                    foreach (var plays in item.FootballPlayers)
+                    {
+                        if (playNum == plays.PlayerNum || playNum == 0)
+                        {
+                            Notifications.Print(ConsoleColor.Red, "players of the same number will not or deosn't be zero!! please enter correctly");
+                            Notifications.Print(ConsoleColor.Yellow, $"{plays.PlayerNum}");
+                            goto Play;
+                        }
+                    }   
+                }
 
                 Notifications.Print(ConsoleColor.Yellow, "Please enter the Player Club Id:");
                 int clubId = Chek.NumTryPars();
-
 
                 FootballPlayer player = new FootballPlayer()
                 {

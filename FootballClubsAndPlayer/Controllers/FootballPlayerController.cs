@@ -2,15 +2,13 @@
 using DataAccess;
 using Entities.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Utilities.Helper;
 
 namespace FootballClubsAndPlayer.Controllers
 {
     public class FootballPlayerController
     {
-        FootballPlayerService playerService=new FootballPlayerService();
+        FootballPlayerService playerService = new FootballPlayerService();
 
         #region METHODS
 
@@ -25,27 +23,35 @@ namespace FootballClubsAndPlayer.Controllers
 
             Notifications.Print(ConsoleColor.Yellow, "Please enter the Player surname:");
             string playerSurname = Chek.StrNull();
-
+        A:
             Notifications.Print(ConsoleColor.Yellow, "Please enter the Player Age:");
             int age = Chek.NumTryPars();
+            if (age == 0)
+            {
+                Notifications.Print(ConsoleColor.Red, "Age doesn't be zero or minus!! please enter the correctly");
+                goto A;
+            }
 
-
+        Play:
             Notifications.Print(ConsoleColor.Yellow, "Please enter the Player Number:");
             int playNum = Chek.NumTryPars();
 
-
-            Notifications.Print(ConsoleColor.Yellow, "Please enter the Player Club Id:");
-            int clubId = Chek.NumTryPars();
-
-
+            foreach (var item in playerService.Get())
+            {
+                if (playNum == item.PlayerNum || playNum == 0)
+                {
+                    Notifications.Print(ConsoleColor.Red, "players of the same number will not or deosn't be zero!! please enter correctly");
+                    Notifications.Print(ConsoleColor.Yellow, $"{item.PlayerNum}");
+                    goto Play;
+                }
+            }
             FootballPlayer player = new FootballPlayer()
             {
                 PlayerName = playerName,
                 PlayerSurname = playerSurname,
-                ClubId = clubId,
+                ClubId = 0,
                 Age = age,
                 PlayerNum = playNum
-
             };
 
             playerService.Create(player);
@@ -58,7 +64,7 @@ namespace FootballClubsAndPlayer.Controllers
         /// </summary>
         public void GetPlayer()
         {
-            if (DataContext.FootballPlayers.Count == 0) 
+            if (DataContext.FootballPlayers.Count == 0)
             {
                 Console.Beep();
                 Notifications.Print(ConsoleColor.Red, "Firstly you have to creat a player");
@@ -67,7 +73,7 @@ namespace FootballClubsAndPlayer.Controllers
             {
                 foreach (var item in playerService.Get())
                 {
-                    Notifications.Print(ConsoleColor.Magenta, $"ID: {item.ID}---NAME: {item.PlayerName}---SURNAME: {item.PlayerSurname}----PLAYER AGE{item.Age}---PLAYER'S NUMBER: {item.PlayerName}");
+                    Notifications.Print(ConsoleColor.Magenta, $"ID: {item.ID}---NAME: {item.PlayerName}---SURNAME: {item.PlayerSurname}----PLAYER AGE: {item.Age}---PLAYER'S NUMBER: {item.PlayerNum}");
                 }
             }
         }
@@ -106,8 +112,8 @@ namespace FootballClubsAndPlayer.Controllers
                 FootballPlayer playernew = new FootballPlayer()
                 {
                     PlayerName = newname,
-                    PlayerSurname =newsurname,
-                    Age =newage,
+                    PlayerSurname = newsurname,
+                    Age = newage,
                     PlayerNum = newnum,
                 };
                 playerService.Update(idchange, playernew);

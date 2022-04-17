@@ -12,14 +12,20 @@ namespace Utilities.Helper
             string str =Console.ReadLine();
             int num;
            bool IsNum=int.TryParse(str, out num);
-            if (IsNum) 
-            {
-            return num=int.Parse(str);
-            }
-            else
+            if (!IsNum) 
             {
                 Notifications.Print(ConsoleColor.Red, "Error: Enter the correctly");
-                goto ERROR1;
+                goto ERROR1;  
+            }
+            else 
+            {
+                num = int.Parse(str);
+                if (num <0) 
+                {
+                    Notifications.Print(ConsoleColor.Red, "Error: doesn't minus ");
+                    goto ERROR1;
+                }
+                return num; 
             }
          
         }
