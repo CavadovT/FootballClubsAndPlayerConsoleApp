@@ -11,6 +11,7 @@ namespace FootballClubsAndPlayer.Controllers
     public class CountryController
     {
         CountryService countryService = new CountryService();
+        ClubController clubController = new ClubController();
 
         #region METHODS
         /// <summary>
@@ -52,6 +53,10 @@ namespace FootballClubsAndPlayer.Controllers
                     foreach (var i in item.Clubs)
                     {
                         Notifications.Print(ConsoleColor.White, $"  \nClID: {i.ID}--ClName: {i.ClubName}--Club Created {i.CreatTeam.Month}/{i.CreatTeam.Day}/{i.CreatTeam.Year}");
+                        foreach (var j in i.FootballPlayers) 
+                        {
+                            Notifications.Print(ConsoleColor.Magenta, $"ID: {j.ID}---NAME: {j.PlayerName}---SURNAME: {j.PlayerSurname}----PLAYER AGE: {j.Age}---PLAYER'S NUMBER: {j.PlayerNum}");
+                        }
                     }
                 }
             }
@@ -124,26 +129,30 @@ namespace FootballClubsAndPlayer.Controllers
             }
             else 
             {
+                
                 GetCountry();
+                clubController.GetClubs();
                 Notifications.Print(ConsoleColor.Yellow, "Please check and enter the Country Id for add :");
                 int Countid = Chek.NumTryPars();
 
-                Notifications.Print(ConsoleColor.Yellow, "Please enter the Club name:");
-                string clubName = Chek.StrNull();
+                //Notifications.Print(ConsoleColor.Yellow, "Please enter the Club name:");
+                //string clubName = Chek.StrNull();
 
-                Notifications.Print(ConsoleColor.Yellow, "Please enter the Club Maximum player size:");
-                int Msize = Chek.NumTryPars();
-                
-                Club club = new Club()
-                {
-                    ClubName = clubName,
-                    MaxPSize = Msize,
-                    CountryId = Countid,
-                    CreatTeam = DateTime.Today,
-                };
+                //Notifications.Print(ConsoleColor.Yellow, "Please enter the Club Maximum player size:");
+                //int Msize = Chek.NumTryPars();
+
+                //Club club = new Club()
+                //{
+                //    ClubName = clubName,
+                //    MaxPSize = Msize,
+                //    CountryId = Countid,
+                //    CreatTeam = DateTime.Today,
+                //};
+                Notifications.Print(ConsoleColor.Yellow, "Enter the cloubId");
+                int cloubId= Chek.NumTryPars();
  
-                countryService.AddClubToCountry(club,Countid);
-                Notifications.Print(ConsoleColor.Yellow, $"{club.ClubName} added to Country");
+                countryService.AddClubToCountry(cloubId,Countid);
+                Notifications.Print(ConsoleColor.Yellow, $" added to Country");
             }
         }
         #endregion

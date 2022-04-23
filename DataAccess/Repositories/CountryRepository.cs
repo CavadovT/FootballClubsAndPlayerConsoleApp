@@ -68,12 +68,26 @@ namespace DataAccess.Repositories
             }
         }
 
-       
-        public bool  AddClub(Club club,int countryid)
+
+        //public bool AddClub(Club club, int countryid)
+        //{
+        //    try
+        //    {
+        //        Country country = DataContext.Countrys.Find(cl => cl.ID == countryid);
+        //        country.Clubs.Add(club);
+        //        return true;
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        throw;
+        //    }
+
+        //}
+        public bool AddClub(Club club, Country country)
         {
             try
             {
-                Country country = DataContext.Countrys.Find(cl => cl.ID == countryid);
                 country.Clubs.Add(club);
                 return true;
             }
@@ -82,7 +96,7 @@ namespace DataAccess.Repositories
 
                 throw;
             }
-            
+
         }
 
         public Country Find(Predicate<Country> filter = null)

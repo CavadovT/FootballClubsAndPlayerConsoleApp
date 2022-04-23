@@ -1,4 +1,5 @@
 ﻿using Business.Interfaces;
+using DataAccess;
 using DataAccess.Repositories;
 using Entities.Models;
 using System;
@@ -100,25 +101,45 @@ namespace Business.Services
         /// <param name="club"></param>
         /// <param name="countryId"></param>
         /// <returns></returns>
-        public Country AddClubToCountry(Club club,int countryId)
+        //public Country AddClubToCountry(Club club,int countryId)
+        //{
+
+        //    if (club.CountryId != countryId) 
+        //    {
+        //        Notifications.Print(ConsoleColor.Red, "countryid and clubs country id is different");
+        //    }
+        //    Country country= _countryRepository.Find(c => c.ID == countryId);
+        //    if (country == null) 
+        //    {
+        //        Notifications.Print(ConsoleColor.Red, "With this id Country Not Found at List");
+        //        return null;
+        //    }
+        //    else
+        //    {
+
+        //        club.ID = country.Clubs.Count + 1;
+        //        _countryRepository.AddClub(club, countryId);
+        //        return country;
+
+        //    }
+
+        //}
+        public void AddClubToCountry(int cloubId, int countryId)
         {
-            
-            if (club.CountryId != countryId) 
-            {
-                Notifications.Print(ConsoleColor.Red, "countryid and clubs country id is different");
-            }
-            Country country= _countryRepository.Find(c => c.ID == countryId);
-            if (country == null) 
+            Club club = DataContext.Clubs.Find(c => c.ID == cloubId);
+            Country country=DataContext.Countrys.Find(c => c.ID == countryId);
+
+            //if (club.CountryId != countryId)
+            //{
+            //    Notifications.Print(ConsoleColor.Red, "countryid and clubs country id is different");
+            //}
+            if (country == null)
             {
                 Notifications.Print(ConsoleColor.Red, "With this id Country Not Found at List");
-                return null;
             }
             else
             {
-
-                club.ID = country.Clubs.Count + 1;
-                _countryRepository.AddClub(club, countryId);
-                return country;
+                _countryRepository.AddClub(club, country);
 
             }
 
